@@ -1,0 +1,81 @@
+class Node
+{
+    boolean terminal=false;
+    Node[] links = new Node[26];
+
+    public boolean containsKey(char ch)
+    {
+        return links[ch-'a']!=null;
+    }
+
+    public Node get(char ch)
+    {
+        return links[ch-'a'];
+    }
+
+    public void put(char ch, Node node)
+    {
+        links[ch-'a'] = node;
+    }
+
+    public void setEnd()
+    {
+        terminal=true;
+    }
+
+    public boolean isEnd()
+    {
+        return terminal;
+    }
+}
+
+class PrefixTree {
+
+    private Node root;
+
+    public PrefixTree() {
+         root = new Node();
+    }
+
+    public void insert(String word) {
+        Node node = root;
+
+        for(char ch : word.toCharArray())
+        {
+            if(!node.containsKey(ch))
+            {
+                node.put(ch, new Node());
+            }
+            node=node.get(ch);
+        }
+        node.setEnd();
+    }
+
+    public boolean search(String word) {
+        Node node = root;
+
+        for(char ch : word.toCharArray())
+        {
+            if(!node.containsKey(ch))
+            {
+                return false;
+            }
+            node=node.get(ch);
+        }
+        return node.isEnd();
+    }
+
+    public boolean startsWith(String prefix) {
+        Node node = root;
+
+        for(char ch : prefix.toCharArray())
+        {
+            if(!node.containsKey(ch))
+            {
+                return false;
+            }
+            node=node.get(ch);
+        }
+        return true;
+    }
+}
